@@ -7,6 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
+import '@/styles/test.scss'
 
 import App from './App'
 import store from './store'
@@ -27,7 +28,8 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 // dev：development 开发
 // test：测试
-// production：生产
+// production：生产（打包上线环境）
+// 将上线的提示关闭掉
 Vue.config.productionTip = false
 
 new Vue({
