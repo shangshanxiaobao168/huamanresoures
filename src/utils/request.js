@@ -2,13 +2,21 @@
 import axios from 'axios'
 // 尽管element已经完全引入，但那是在vue全局上注册，可以在vue文件上使用，而不是在js文件上，所以此处需要单独引入
 import { Message } from 'element-ui'
+import store from '@/store'
 const service = axios.create({
   // 基准地址
   baseURL: process.env.VUE_APP_BASE_API,
   //超时时间
   timeout: 5000,
 }) // 创建一个axios的实例
-service.interceptors.request.use() // 请求拦截器
+service.interceptors.request.use((config) => {
+  // 当前请求的配置
+  // console.log(config);
+  if (store.state.user.token) {
+    config.headers.Authorization = 'Bearer ' + store.state.user.token
+  }
+  return config
+}) // 请求拦截器
 service.interceptors.response.use(
   (res) => {
     console.log(res)

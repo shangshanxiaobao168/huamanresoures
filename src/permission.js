@@ -10,6 +10,11 @@ const whiteList = ['/login', '/404']
 router.beforeEach((to, from, next) => {
   const token = store.state.user.token
   if (token) {
+    if (!store.state.user.userInfo.userId) {
+      // 获取用户信息
+      store.dispatch('user/getUserInfo')
+    }
+    console.log('发送请求获取数据')
     // 1.登录
     // 是否进入首页
     if (to.path === '/login') {

@@ -53,7 +53,7 @@ export default {
       width: 140px;
       vertical-align: middle;
       margin-right: 12px;
-}
+    }
 
     & .sidebar-title {
       display: inline-block;
