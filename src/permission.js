@@ -14,7 +14,7 @@ router.beforeEach((to, from, next) => {
       // 获取用户信息
       store.dispatch('user/getUserInfo')
     }
-    console.log('发送请求获取数据')
+    // console.log('发送请求获取数据')
     // 1.登录
     // 是否进入首页
     if (to.path === '/login') {
