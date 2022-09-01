@@ -1,6 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import approvals from '@/router/modules/approvals'
+import departments from '@/router/modules/departments'
+import employees from '@/router/modules/employees'
+import permission from '@/router/modules/permission'
+import attendances from '@/router/modules/attendances'
+import salarys from '@/router/modules/salarys'
+import setting from '@/router/modules/setting'
+import social from '@/router/modules/social'
 Vue.use(Router)
 
 /* Layout */
@@ -29,7 +36,7 @@ export const constantRoutes = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
-        meta: { title: 'Dashboard', icon: 'dashboard' },
+        meta: { title: '首页', icon: 'dashboard' },
       },
     ],
   },
@@ -37,12 +44,23 @@ export const constantRoutes = [
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true },
 ]
+// 准备好所有项目的动态路由，基于后端返回的用户权限对动态路由进行筛选
+const asyncRoutes = [
+  approvals,
+  departments,
+  employees,
+  permission,
+  attendances,
+  salarys,
+  setting,
+  social,
+]
 
 const createRouter = () =>
   new Router({
     // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes,
+    routes: [...constantRoutes, ...asyncRoutes],
   })
 // vueRouter实例
 const router = createRouter()
