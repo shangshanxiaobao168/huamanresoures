@@ -15,6 +15,7 @@
 
 <script>
 import treeTools from './components/tree-tools.vue'
+import {getDepartmentsApi} from '@/api/departments'
 export default {
   data() {
     return {
@@ -36,9 +37,16 @@ export default {
   components: {
     treeTools,
   },
-  created() {},
+  created() {
+    this.getDepartments()
+  },
 
-  methods: {},
+  methods: {
+    async getDepartments() {
+      const res = await getDepartmentsApi()
+      console.log(res)
+    },
+  },
 }
 </script>
 
