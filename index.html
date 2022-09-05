@@ -14,18 +14,24 @@
         { name: '里斯', id: 3, pid: 0 },
         { name: '里斯斯', id: 4, pid: 3 },
       ]
-      function tranListToTree(data) {
+      function tranListToTree(data, pid) {
         const arr = []
         data.forEach((item) => {
-          if (item.pid === 0) {
-            // 当前item就是一级数据
+          if (item.pid === pid) {
+            // 当前item就是一级数据,item.id
+            // item.id 一致的就是儿子
             arr.push(item)
           }
+          //第二次调用，找二级数据
+          const children = tranListToTree(data, item.id)
+          if
         })
         return arr
       }
-      const tree = tranListToTree(list)
-      console.log(tree);
+
+      // 第一次调用，要寻找一级数据
+      const tree = tranListToTree(list, 0)
+      console.log(tree)
     </script>
   </body>
 </html>
