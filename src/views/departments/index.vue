@@ -6,7 +6,9 @@
         <treeTools :isRoot="true" :treeNode="company" />
         <!-- 树形 -->
         <el-tree :data="treeData" default-expand-all :props="defaultProps">
-          <treeTools :treeNode="{ name: '总裁办', manager: '周杰伦' }" />
+          <template v-slot="{ data }">
+            <treeTools :treeNode="data" />
+          </template>
         </el-tree>
       </el-card>
     </div>
@@ -15,7 +17,7 @@
 
 <script>
 import treeTools from './components/tree-tools.vue'
-import {getDepartmentsApi} from '@/api/departments'
+import { getDepartmentsApi } from '@/api/departments'
 export default {
   data() {
     return {
@@ -44,7 +46,8 @@ export default {
   methods: {
     async getDepartments() {
       const res = await getDepartmentsApi()
-      console.log(res)
+      // console.log(res);
+      this.treeData = res.depts
     },
   },
 }
