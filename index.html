@@ -20,11 +20,14 @@
           if (item.pid === pid) {
             // 当前item就是一级数据,item.id
             // item.id 一致的就是儿子
+
+            //第二次调用，根据一级数据的id，找二级数据
+            const children = tranListToTree(data, item.id)
+            if (children.length) {
+              item.children = children
+            }
             arr.push(item)
           }
-          //第二次调用，找二级数据
-          const children = tranListToTree(data, item.id)
-          if
         })
         return arr
       }

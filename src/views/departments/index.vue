@@ -3,21 +3,33 @@
     <div class="app-container">
       <el-card class="box-card">
         <!-- 头部 -->
-        <treeTools :isRoot="true" :treeNode="company" />
+        <treeTools @add="showAddDept" :isRoot="true" :treeNode="company" />
         <!-- 树形 -->
         <el-tree :data="treeData" default-expand-all :props="defaultProps">
           <template v-slot="{ data }">
-            <treeTools :treeNode="data" />
+            <treeTools
+              @add="showAddDept"
+              @remove="getDepartments"
+              :treeNode="data"
+            />
           </template>
         </el-tree>
       </el-card>
     </div>
+    <!-- 添加部门弹层 -->
+    <addDept
+      @add-success="getDepartments"
+      :visible.sync="dialogVisible"
+      :currentNode="currentNode"
+    ></addDept>
   </div>
 </template>
 
 <script>
 import treeTools from './components/tree-tools.vue'
 import { getDepartmentsApi } from '@/api/departments'
+import { tranListToTree } from '@/utils'
+import addDept from './components/add-depts.vue'
 export default {
   data() {
     return {
@@ -34,10 +46,13 @@ export default {
         name: '传智教育',
         manager: '负责人',
       },
+      dialogVisible: false,
+      currentNode: {},
     }
   },
   components: {
     treeTools,
+    addDept,
   },
   created() {
     this.getDepartments()
@@ -47,7 +62,13 @@ export default {
     async getDepartments() {
       const res = await getDepartmentsApi()
       // console.log(res);
-      this.treeData = res.depts
+      this.treeData = tranListToTree(res.depts, '')
+    },
+    showAddDept(val) {
+      console.log(val)
+      this.dialogVisible = true
+      this.currentNode = val
+      // console.log(val.id)
     },
   },
 }
