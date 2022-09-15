@@ -29,13 +29,9 @@
 
 <script>
 import treeTools from './components/tree-tools.vue'
-<<<<<<< HEAD
 import { getDepartmentsApi } from '@/api/departments'
 import { tranListToTree } from '@/utils'
 import addDept from './components/add-depts.vue'
-=======
-import {getDepartmentsApi} from '@/api/departments'
->>>>>>> d30ed147b4636d174ee5faa9c0d0bcab3a8469a2
 export default {
   data() {
     return {
@@ -64,7 +60,6 @@ export default {
   created() {
     this.getDepartments()
   },
-<<<<<<< HEAD
 
   methods: {
     async getDepartments() {
@@ -83,16 +78,6 @@ export default {
     showEditDept(val) {
       this.dialogVisible = true
       this.$refs.addDept.getDeptById(val.id)
-=======
-  created() {
-    this.getDepartments()
-  },
-
-  methods: {
-    async getDepartments() {
-      const res = await getDepartmentsApi()
-      console.log(res)
->>>>>>> d30ed147b4636d174ee5faa9c0d0bcab3a8469a2
     },
   },
 }
