@@ -39,7 +39,7 @@ module.exports = {
 
     proxy: {
       '/api': {
-        target: 'http://ihrm-java.itheima.net/', //跨域的服务器
+        target: 'http://ihrm.itheima.net/', //跨域的服务器
       },
     },
   },

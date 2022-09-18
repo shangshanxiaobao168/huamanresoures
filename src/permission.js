@@ -7,12 +7,12 @@ import store from '@/store'
 // next：是否进入
 // 准备白名单
 const whiteList = ['/login', '/404']
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const token = store.state.user.token
   if (token) {
     if (!store.state.user.userInfo.userId) {
       // 获取用户信息
-      store.dispatch('user/getUserInfo')
+      await store.dispatch('user/getUserInfo')
     }
     // console.log('发送请求获取数据')
     // 1.登录
