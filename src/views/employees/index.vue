@@ -5,8 +5,9 @@
         <span>共789条</span>
       </template>
       <template #right-tag>
-        <el-button size="small" type="danger">普通excel导出</el-button>
-        <el-button size="small" type="info">复杂表头excel导出</el-button>
+        <el-button size="small" type="info" @click="exportExcel"
+          >导出</el-button
+        >
         <el-button size="small" type="success" @click="$router.push('/import')"
           >excel导入</el-button
         >
@@ -56,8 +57,8 @@
         <el-table-column label="入职时间" sortable prop="timeOfEntry">
           <template slot-scope="{ row }">
             {{ row.timeOfEntry | formatTime }}
-          </template> </el-table-column
-        >F
+          </template>
+        </el-table-column>
         <el-table-column label="状态" sortable prop="enableState">
           <template slot-scope="{ row }">
             <el-switch
@@ -102,6 +103,7 @@
 import { getEmployeesInfoApi, deleteEmployeesApi } from '@/api/employees.js'
 import employees from '@/constant/employees.js'
 import addEmployees from './components/add-employess'
+const { hireType, exportExcelMapPath } = employees
 export default {
   name: 'Employees',
   data() {
@@ -142,6 +144,35 @@ export default {
     },
     showAdd() {
       this.showAddEmployees = true
+    },
+    async exportExcel() {
+      const { export_json_to_excel } = await import('@/vendor/Export2Excel')
+      const { rows } = await getEmployeesInfoApi({
+        page: 1,
+        size: this.total,
+      })
+      const header = Object.keys(exportExcelMapPath)
+      const data = rows.map((item) => {
+        return header.map((h) => {
+          if (h === '聘用形式') {
+            const findItem = hireType.find((hire) => {
+              return hire.id === item[exportExcelMapPath[h]]
+            })
+            return findItem ? findItem.value : '未知'
+          } else {
+            return item[exportExcelMapPath[h]]
+          }
+        })
+      })
+      export_json_to_excel({
+        header,
+        data,
+        filename: '员工列表',
+        autoWidth: true,
+        bookType: 'xlsx',
+        multiHeader: [['手机号', '其他信息', '', '', '', '', '部门']],
+        merges: ['A1:A2', 'B1:F1', 'G1:G2'],
+      })
     },
   },
   components: {
