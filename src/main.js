@@ -15,7 +15,17 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+// 自定义指令
 import * as directives from '@/directives'
+// 组件
+import components from '@/components'
+
+// 过滤器封装
+import * as filters from '@/filters'
+for (let key in filters) {
+  Vue.filter(key, filters[key])
+}
+
 // mock假数据
 if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
@@ -24,6 +34,8 @@ if (process.env.NODE_ENV === 'production') {
 // 注册element ui
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
+// 统一注册组件
+Vue.use(components)
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 // dev：development 开发
@@ -34,6 +46,7 @@ Vue.config.productionTip = false
 for (let key in directives) {
   Vue.directive(key, directives[key])
 }
+
 new Vue({
   el: '#app',
   router,

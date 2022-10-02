@@ -8,6 +8,7 @@ import attendances from '@/router/modules/attendances'
 import salarys from '@/router/modules/salarys'
 import setting from '@/router/modules/setting'
 import social from '@/router/modules/social'
+import importEmployess from '@/router/modules/import'
 Vue.use(Router)
 
 /* Layout */
@@ -54,6 +55,7 @@ const asyncRoutes = [
   salarys,
   setting,
   social,
+  importEmployess,
 ]
 
 const createRouter = () =>

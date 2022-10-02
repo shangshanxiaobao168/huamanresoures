@@ -96,7 +96,7 @@ export default {
       activeName: 'first',
       tableData: [],
       total: 0,
-      pageSize: 1,
+      pageSize: 10,
       page: 1,
       addDialogVisible: false,
       addRoleForm: {
