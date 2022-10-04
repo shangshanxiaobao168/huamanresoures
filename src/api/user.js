@@ -6,15 +6,15 @@ import request from '@/utils/request'
  */
 export function login(data) {
   return request({
-    url:'/sys/login',
+    url: '/sys/login',
     method: 'POST',
     data,
   })
 }
-export function getUserInfoApi(){
+export function getUserInfoApi() {
   return request({
-    url:'/sys/profile',
-    method:'POST',
+    url: '/sys/profile',
+    method: 'POST',
   })
 }
 /**
@@ -22,8 +22,26 @@ export function getUserInfoApi(){
  * @para{string}
  * @return promise
  */
-export function getUserDetail(id){
+export function getUserDetail(id) {
   return request({
-    url:'/sys/user/'+ id
+    url: '/sys/user/' + id,
+  })
+}
+/**
+ * 保存员工基本信息
+ * @returns promise
+ */
+export function saveUserBasicInfo(data) {
+  return request({
+    url: `/sys/user/${data.id}`,
+    method: 'PUT',
+    data,
+  })
+}
+
+export function saveEmployeesInfo(id) {
+  return request({
+    url: `/employees/${id}/personalInfo`,
+    method: 'PUT',
   })
 }

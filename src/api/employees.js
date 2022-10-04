@@ -45,12 +45,24 @@ export function addEmployeesApi(data) {
 /**
  * 批量导入员工
  * @param {*} data 员工数组
- * @returns 
+ * @returns
  */
 export function importEmployess(data) {
   return request({
     url: '/sys/user/batch',
     method: 'POST',
     data,
+  })
+}
+
+/**
+ * 读取用户详情的基础信息
+ * @param {*} id
+ * @returns
+ */
+export function getPersonalDetail(id) {
+  return request({
+    url: `/employees/${id}/transferPosition`,
+    method: 'GET',
   })
 }
