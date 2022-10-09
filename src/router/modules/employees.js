@@ -18,5 +18,10 @@ export default {
       component: () => import('@/views/employees/detail'),
       hidden: true,
     },
+    {
+      path: 'print/:id',
+      component: () => import('@/views/employees/print'),
+      hidden: true,
+    },
   ],
 }

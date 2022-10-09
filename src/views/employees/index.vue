@@ -36,6 +36,7 @@
                 height: 100px;
                 padding: 10px;
               "
+              @click="showTwoCodeDialog(row.staffPhoto)"
             />
           </template>
         </el-table-column>
@@ -97,10 +98,15 @@
         </el-pagination>
       </el-row>
     </el-card>
+    <!-- 添加员工组件 -->
     <addEmployees
       @add-success="getEmployeesList"
       :visible.sync="showAddEmployees"
     ></addEmployees>
+    <!-- 头像二维码 -->
+    <el-dialog :visible.sync="twoCodeDialog" title="头像">
+      <canvas id="canvas"></canvas>
+    </el-dialog>
   </div>
 </template>
 
@@ -108,6 +114,7 @@
 import { getEmployeesInfoApi, deleteEmployeesApi } from '@/api/employees.js'
 import employees from '@/constant/employees.js'
 import addEmployees from './components/add-employess'
+import QRcode from 'qrcode'
 const { hireType, exportExcelMapPath } = employees
 export default {
   name: 'Employees',
@@ -120,6 +127,7 @@ export default {
         size: 10,
       },
       showAddEmployees: false,
+      twoCodeDialog: false,
     }
   },
   created() {
@@ -177,6 +185,14 @@ export default {
         bookType: 'xlsx',
         multiHeader: [['手机号', '其他信息', '', '', '', '', '部门']],
         merges: ['A1:A2', 'B1:F1', 'G1:G2'],
+      })
+    },
+    showTwoCodeDialog(staffPhoto) {
+      if (!staffPhoto) return this.$message.error('该用户还未设置头像')
+      this.twoCodeDialog = true
+      this.$nextTick(() => {
+        const canvas = document.getElementById('canvas')
+        QRcode.toCanvas(canvas, staffPhoto)
       })
     },
   },

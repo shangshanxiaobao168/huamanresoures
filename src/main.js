@@ -17,6 +17,8 @@ import '@/icons' // icon
 import '@/permission' // permission control
 // 自定义指令
 import * as directives from '@/directives'
+import Print from 'vue-print-nb'
+Vue.use(Print)
 // 组件
 import components from '@/components'
 

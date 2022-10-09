@@ -1,18 +1,13 @@
 <template>
-  <div>
-    <UploadImg></UploadImg>
-  </div>
+  <div>首页</div>
 </template>
 
 <script>
-import UploadImg from '@/components/UploadImg'
 export default {
   data() {
     return {}
   },
-  components: {
-    UploadImg
-  },
+  components: {},
 
   created() {},
 
