@@ -1,5 +1,6 @@
 import { getUserDetail, getUserInfoApi, login } from '@/api/user.js'
 import { setTokenTime } from '@/utils/auth'
+import { resetRouter } from '@/router'
 export default {
   namespaced: true,
   state: {
@@ -34,11 +35,16 @@ export default {
       //   const res = { name: '周杰伦' }
       //   context.commit('setUserInfo', res)
       // }, 1000)
+      // 通过userBaseInfo处理动态路由
+      // actions内部可以通过return将数据传递出去，类似then中的return
+      return userBaseInfo
     },
     // 登出功能
     logout(context) {
       context.commit('setToken', '')
       context.commit('setUserInfo', {})
+      resetRouter()
+      context.commit('permission/setRoutes', [], { root: true })
     },
   },
 }

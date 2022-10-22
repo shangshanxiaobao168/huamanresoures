@@ -1,3 +1,4 @@
+import store from '@/store'
 export const imgError = {
   // 当被绑定的元素插入到dom中时
   // 指令绑定的元素插入到dom的时候，图片数据还没请求回来
@@ -19,6 +20,16 @@ export const imgError = {
       el.onerror = function () {
         el.src = value
       }
+    }
+  },
+}
+// 自定义指令按钮权限
+export const isHas = {
+  inserted(el, binding) {
+    const has = store.state.permission.points.includes(binding.value)
+    console.log(has)
+    if (!has) {
+      el.remove()
     }
   },
 }

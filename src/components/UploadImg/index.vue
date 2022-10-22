@@ -66,16 +66,15 @@ export default {
         },
         (err, data) => {
           console.log(data)
-          this.$emit('onSuccess', { url: 'https://' + data.Location })
+          // 成功或失败均进入该函数
+          // err null false 没有错
+          // err 不为null true 有错
           this.loading = false
           // 成功或失败都进入该函数
           if (err || data.statusCode !== 200) {
             return this.$message.error('上传失败')
-            console.log('上传失败', err)
-          } else {
-            return this.$message.success('上传成功')
-            console.log('上传成功')
           }
+          this.$emit('onSuccess', { url: 'https://' + data.Location })
           // 'https://' + data.Location
         },
       )

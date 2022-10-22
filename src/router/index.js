@@ -14,7 +14,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
-// 静态路由
+// 静态路由，每个用户都有权访问的，不需要鉴权
 export const constantRoutes = [
   {
     path: '/login',
@@ -46,7 +46,7 @@ export const constantRoutes = [
   { path: '*', redirect: '/404', hidden: true },
 ]
 // 准备好所有项目的动态路由，基于后端返回的用户权限对动态路由进行筛选
-const asyncRoutes = [
+export const asyncRoutes = [
   approvals,
   departments,
   employees,
@@ -62,7 +62,7 @@ const createRouter = () =>
   new Router({
     // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
-    routes: [...constantRoutes, ...asyncRoutes],
+    routes: [...constantRoutes],
   })
 // vueRouter实例
 const router = createRouter()
@@ -76,3 +76,4 @@ export function resetRouter() {
 }
 
 export default router
+

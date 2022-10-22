@@ -2,6 +2,9 @@ import Layout from '@/layout'
 export default {
   path: '/import',
   component: Layout,
+  meta: {
+    id: 'user12345',
+  },
   hidden: true,
   children: [
     {

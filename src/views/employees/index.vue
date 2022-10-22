@@ -9,9 +9,11 @@
           >导出</el-button
         >
         <el-button size="small" type="success" @click="$router.push('/import')"
+        v-isHas="point.employees.import"
           >excel导入</el-button
         >
         <el-button size="small" type="primary" @click="showAdd"
+        v-isHas="point.employees.add"
           >新增员工</el-button
         >
       </template>
@@ -81,8 +83,17 @@
             <el-button size="small" type="text">转正</el-button>
             <el-button size="small" type="text">调岗</el-button>
             <el-button size="small" type="text">离职</el-button>
-            <el-button size="small" type="text">角色</el-button>
-            <el-button size="small" type="text" @click="onRemove(row.id)"
+            <el-button
+              size="small"
+              type="text"
+              @click="showAssignDialog(row.id)"
+              >角色</el-button
+            >
+            <el-button
+              size="small"
+              type="text"
+              @click="onRemove(row.id)"
+              v-isHas="point.employees.del"
               >删除</el-button
             >
           </template>
@@ -107,6 +118,11 @@
     <el-dialog :visible.sync="twoCodeDialog" title="头像">
       <canvas id="canvas"></canvas>
     </el-dialog>
+    <!-- 分配角色 -->
+    <AssignRole
+      :visible.sync="showAssignRole"
+      :employeesId="currentEmployeesId"
+    ></AssignRole>
   </div>
 </template>
 
@@ -114,7 +130,9 @@
 import { getEmployeesInfoApi, deleteEmployeesApi } from '@/api/employees.js'
 import employees from '@/constant/employees.js'
 import addEmployees from './components/add-employess'
+import AssignRole from './components/assign-role.vue'
 import QRcode from 'qrcode'
+import permissionPoint from '@/constant/permission'
 const { hireType, exportExcelMapPath } = employees
 export default {
   name: 'Employees',
@@ -128,6 +146,9 @@ export default {
       },
       showAddEmployees: false,
       twoCodeDialog: false,
+      showAssignRole: false,
+      currentEmployeesId: '',
+      point: permissionPoint,
     }
   },
   created() {
@@ -195,9 +216,18 @@ export default {
         QRcode.toCanvas(canvas, staffPhoto)
       })
     },
+    // 点击角色，显示分配角色弹层
+    showAssignDialog(id) {
+      this.showAssignRole = true
+      this.currentEmployeesId = id
+    },
+    isHas(point) {
+      return this.$store.state.permission.points.includes(point)
+    },
   },
   components: {
     addEmployees,
+    AssignRole,
   },
 }
 </script>

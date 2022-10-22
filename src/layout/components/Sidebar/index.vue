@@ -31,7 +31,9 @@ export default {
       'sidebar'
     ]),
     routes() {
-      return this.$router.options.routes
+      // 可以获取到动态添加的路由以外的路由
+      // 自己设置一套路由系统
+      return this.$store.state.permission.routes
     },
     activeMenu() {
       const route = this.$route

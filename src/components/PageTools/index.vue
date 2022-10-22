@@ -1,19 +1,23 @@
 <template>
-  <el-card class="box-card">
-    <el-row type="flex">
-      <el-col v-if="isShowLeft">
-        <el-tag>
-          <i :class="leftIcon"></i>
-          <slot name="left-tag"></slot>
-        </el-tag>
-      </el-col>
-      <el-col>
-        <el-row type="flex" justify="end">
-          <slot name="right-tag"></slot>
+  <div class="dashboard-container">
+    <div class="app-container">
+      <el-card class="box-card">
+        <el-row type="flex">
+          <el-col v-if="isShowLeft">
+            <el-tag>
+              <i :class="leftIcon"></i>
+              <slot name="left-tag"></slot>
+            </el-tag>
+          </el-col>
+          <el-col>
+            <el-row type="flex" justify="end">
+              <slot name="right-tag"></slot>
+            </el-row>
+          </el-col>
         </el-row>
-      </el-col>
-    </el-row>
-  </el-card>
+      </el-card>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -39,4 +43,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.box-card {
+  margin: 10px
+}
+</style>

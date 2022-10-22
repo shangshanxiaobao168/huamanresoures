@@ -17,8 +17,20 @@
           <el-table-column prop="address" label="操作">
             <!-- 作用域插槽 -->
             <template slot-scope="{ row }">
-              <el-button type="success" size="small">分配权限</el-button>
-              <el-button type="primary" size="small">编辑</el-button>
+              <el-button
+                type="success"
+                size="small"
+                @click="showRightsDialog(row.id)"
+                v-if="isHas(point.roles.add)"
+                
+                >分配权限</el-button
+              >
+              <el-button
+                type="primary"
+                size="small"
+                v-if="isHas(point.roles.edit)"
+                >编辑</el-button
+              >
               <el-button @click="removeRole(row.id)" type="danger" size="small"
                 >删除</el-button
               >
@@ -84,12 +96,43 @@
         <el-button @click="onAddRole" type="primary">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 给角色分配权限 -->
+    <el-dialog
+      title="给角色分配权限"
+      :visible.sync="setRightsDialog"
+      width="50%"
+      @close="setRightsClose"
+      destroy-on-close
+    >
+      <el-tree
+        node-key="id"
+        default-expand-all
+        show-checkbox
+        :default-checked-keys="defaultCheckedKeys"
+        :data="permission"
+        :props="{ label: 'name' }"
+        ref="perTree"
+      ></el-tree>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRightsDialog = false">取 消</el-button>
+        <el-button type="primary" @click="onSaveRights">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getRolesApi, addRolesApi, removeRolesApi } from '@/api/role.js'
+import {
+  getRolesApi,
+  addRolesApi,
+  removeRolesApi,
+  getRolesinfo,
+  assignPerm,
+} from '@/api/role.js'
 import { getCompanyInfoApi } from '@/api/company.js'
+import { getPermissionList } from '@/api/permission.js'
+import { tranListToTree } from '@/utils'
+import pointPermission from '@/constant/permission'
 export default {
   data() {
     return {
@@ -107,12 +150,18 @@ export default {
         name: [{ required: true, message: '请填写部门名称', trigger: 'blur' }],
       },
       companyInfo: {},
+      setRightsDialog: false,
+      permission: [], //权限树形数据
+      defaultCheckedKeys: [], //分配权限选中项
+      roleId: '', //点击分配权限拿到的id
+      point: pointPermission,
     }
   },
 
   created() {
     this.getRoles()
     this.getCompanyInfo()
+    this.getPermissions()
   },
 
   methods: {
@@ -158,6 +207,38 @@ export default {
       )
       this.companyInfo = res
       console.log(res)
+    },
+    // 点击权限分配显示对话框
+    async showRightsDialog(id) {
+      this.roleId = id
+      this.setRightsDialog = true
+      const res = await getRolesinfo(id)
+      console.log(res)
+      this.defaultCheckedKeys = res.permIds
+    },
+    // 获取权限列表
+    async getPermissions() {
+      const res = await getPermissionList()
+      // console.log(res)
+      const treePermission = tranListToTree(res, '0')
+      console.log(treePermission)
+      this.permission = treePermission
+    },
+    // 监听设置权限对话框关闭
+    setRightsClose() {
+      this.defaultCheckedKeys = []
+    },
+    // 保存权限分配
+    async onSaveRights() {
+      await assignPerm({
+        id: this.roleId,
+        permIds: this.$refs.perTree.getCheckedKeys(),
+      })
+      this.$message.success('分配成功')
+      this.setRightsDialog = false
+    },
+    isHas(point) {
+      return this.$store.state.permission.points.includes(point)
     },
   },
 }

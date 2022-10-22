@@ -62,7 +62,15 @@ export function importEmployess(data) {
  */
 export function getPersonalDetail(id) {
   return request({
-    url: `/employees/${id}/transferPosition`,
+    url: `/employees/${id}/personalInfo`,
     method: 'GET',
+  })
+}
+
+export function assignRoles(data) {
+  return request({
+    url: '/sys/user/assignRoles',
+    method: 'PUT',
+    data,
   })
 }
