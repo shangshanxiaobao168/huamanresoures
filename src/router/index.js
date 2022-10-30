@@ -37,6 +37,7 @@ export const constantRoutes = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
+        // title 里面记录的是 语言包里对应的key
         meta: { title: '首页', icon: 'dashboard' },
       },
     ],
@@ -76,4 +77,3 @@ export function resetRouter() {
 }
 
 export default router
-

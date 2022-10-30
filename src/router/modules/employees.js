@@ -5,6 +5,7 @@ export default {
   meta: {
     id: 'employees', //用来和后端权限做约定的
   },
+  
   children: [
     {
       path: '', //默认子路由

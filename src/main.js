@@ -12,13 +12,14 @@ import '@/styles/test.scss'
 import App from './App'
 import store from './store'
 import router from './router'
-
+import i18n from '@/i18n/index.js'
 import '@/icons' // icon
 import '@/permission' // permission control
 // 自定义指令
 import * as directives from '@/directives'
 import Print from 'vue-print-nb'
 Vue.use(Print)
+
 // 组件
 import components from '@/components'
 
@@ -35,7 +36,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 // 注册element ui
 // set ElementUI lang to EN
-Vue.use(ElementUI, { locale })
+Vue.use(ElementUI, {
+  i18n: (key, value) => i18n.t(key, value),
+})
 // 统一注册组件
 Vue.use(components)
 // 如果想要中文版 element-ui，按如下方式声明
@@ -53,5 +56,6 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: (h) => h(App),
 })

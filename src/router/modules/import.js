@@ -3,7 +3,7 @@ export default {
   path: '/import',
   component: Layout,
   meta: {
-    id: 'user12345',
+    id: 'import',
   },
   hidden: true,
   children: [

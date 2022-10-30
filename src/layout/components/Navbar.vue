@@ -12,10 +12,12 @@
     <!-- <breadcrumb class="breadcrumb-container" /> -->
 
     <div class="right-menu">
+      <ToggleLang></ToggleLang>
+      <FullScreen></FullScreen>
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img
-            :src="$store.state.user.userInfo.staffPhoto"
+            :src="$store.getters.avatar"
             class="user-avatar"
             v-imgError="defaultImg"
           />
@@ -43,8 +45,8 @@ import Hamburger from '@/components/Hamburger'
 import defaultImg from '@/assets/common/head.jpg'
 export default {
   // 如果想在data中定义本地图片路径，需要先引入
-  data(){
-    return{
+  data() {
+    return {
       defaultImg,
     }
   },
@@ -113,6 +115,7 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
+    display: flex;
 
     &:focus {
       outline: none;
